@@ -25,10 +25,7 @@ app.use(bodyParser.json({limit: '30mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '30mb', extended: true}));
 
 //Request Rate Limit Implementation
-const Limiter = rateLimit({
-    windowMs: 15 * 60 * 1000,   
-    max: 3000   
-})
+const Limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 3000 })
 app.use(Limiter);
 
 //MongoDB(mongoose) Atlas Database Connection

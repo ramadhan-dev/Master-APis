@@ -1,9 +1,8 @@
 
 const GetAllService= async (req,res,DataModel, Projection) => {
     try {
-        let  data =await DataModel.aggregate([
-            Projection
-          ]);
+        let  data =await DataModel.aggregate([Projection]);
+        console.log("🚀 ~ GetAllService ~ data:", data)
         res.status(200).json({message: "success", data: data});
     }
     catch (error){

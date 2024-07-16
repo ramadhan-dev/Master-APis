@@ -3,7 +3,6 @@ const DetailsService= async (req, res, Model) => {
 
     try {
         let ID=req.params.id;
-        console.log("🚀 ~ DetailsService ~ req.params:", req.params)
         const ObjectId = mongoose.Types.ObjectId;
         let QueryObject = {_id: new ObjectId(ID)};
 
