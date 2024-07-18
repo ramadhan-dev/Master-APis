@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const DeleteService= async (req,res, Model) => {
     try{
 
-        let ID=req.params.id;
+        let ID=req.query.id;
         const ObjectId = mongoose.Types.ObjectId;
         let DeleteQueryObject = {_id: new ObjectId(ID)};
 
