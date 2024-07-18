@@ -6,9 +6,8 @@ const validate = require(process.cwd() + '/src/validations/common/validate')
 const router = express.Router();
 router.post('/create-product-category', validate(ProductCategoryRule.create), ProductCategoryController.CreateProductCategory);
 router.get("/get-all-product-category", ProductCategoryController.GetAllProductCategory);
-router.delete('/delete-product-category/:id', ProductCategoryController.DeleteProductCategory);
-router.put('/update-product-category/:id', ProductCategoryController.UpdateProductCategory);
-router.get('/get-product-category/:id', ProductCategoryController.GetProductCategory);
+router.delete('/delete-product-category', ProductCategoryController.DeleteProductCategory);
+router.put('/update-product-category', ProductCategoryController.UpdateProductCategory);
+router.get('/get-product-category', ProductCategoryController.GetProductCategory);
 
 module.exports = router;
-

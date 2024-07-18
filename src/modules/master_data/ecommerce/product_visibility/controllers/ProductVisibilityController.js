@@ -1,7 +1,7 @@
 
 const mongoose = require("mongoose");
 
-const ProductCategoryModel = require("../models/ProductCategoryModel");
+const ProductVisibilityModel = require("../models/ProductVisibilityModel");
 const CreateService = require(process.cwd() + "/src/services/CreateService");
 const DeleteService = require(process.cwd() + "/src/services/DeleteService");
 const DetailsByIDService = require(process.cwd() + "/src/services/DetailsService");
@@ -13,14 +13,15 @@ const UpdateService = require(process.cwd() + "/src/services/UpdateService");
  * @param {*} req 
  * @param {*} res 
  */
-exports.CreateProductCategory = async (req, res) => {
-    await CreateService(req, res, ProductCategoryModel);
+exports.CreateProductVisibility = async (req, res) => {
+    await CreateService(req, res, ProductVisibilityModel);
 }
 
 
-exports.GetAllProductCategory = async (req, res) => {
+exports.GetAllProductVisibility = async (req, res) => {
+    console.log(1111);
     const projection = { $project: { _id: 1, name:1, code: 1, createdAt: 1, updatedAt: 1, status:1 } }
-    await GetAllService(req, res, ProductCategoryModel, projection)
+    await GetAllService(req, res, ProductVisibilityModel, projection)
 }
 
 
@@ -29,19 +30,8 @@ exports.GetAllProductCategory = async (req, res) => {
  * @param {*} req 
  * @param {*} res 
  */
-exports.DeleteProductCategory = async (req, res) => {
-    await DeleteService(req, res, ProductCategoryModel)
-}
-
-
-
-/**
- * 
- * @param {*} req 
- * @param {*} res 
- */
-exports.GetProductCategory = async (req, res) => {
-    await DetailsByIDService(req, res, ProductCategoryModel);
+exports.DeleteProductVisibility = async (req, res) => {
+    await DeleteService(req, res, ProductVisibilityModel)
 }
 
 
@@ -51,6 +41,17 @@ exports.GetProductCategory = async (req, res) => {
  * @param {*} req 
  * @param {*} res 
  */
-exports.UpdateProductCategory = async (req, res) => {
-    await UpdateService(req, res, ProductCategoryModel)
+exports.GetProductVisibility = async (req, res) => {
+    await DetailsByIDService(req, res, ProductVisibilityModel);
+}
+
+
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.UpdateProductVisibility = async (req, res) => {
+    await UpdateService(req, res, ProductVisibilityModel)
 }

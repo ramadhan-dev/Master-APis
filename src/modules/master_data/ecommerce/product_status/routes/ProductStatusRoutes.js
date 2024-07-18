@@ -8,7 +8,7 @@ router.post('/create-product-status', validate(ProductStatusRule.create), Produc
 router.get("/get-all-product-status", ProductStatusController.GetAllProductStatus);
 router.delete('/delete-product-status/:id', ProductStatusController.DeleteProductStatus);
 router.put('/update-product-status/:id', ProductStatusController.UpdateProductStatus);
-router.get('/get-product-status/:id', ProductStatusController.GetProductStatus);
+router.get('/get-product-status', ProductStatusController.GetProductStatus);
 
 module.exports = router;
 

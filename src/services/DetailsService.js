@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const DetailsService= async (req, res, Model) => {
 
     try {
-        let ID=req.params.id;
+        let ID=req.query.id;
         const ObjectId = mongoose.Types.ObjectId;
         let QueryObject = {_id: new ObjectId(ID)};
 
