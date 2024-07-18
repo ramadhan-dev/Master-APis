@@ -8,7 +8,7 @@ router.post('/create-product-category', validate(ProductCategoryRule.create), Pr
 router.get("/get-all-product-category", ProductCategoryController.GetAllProductCategory);
 router.delete('/delete-product-category/:id', ProductCategoryController.DeleteProductCategory);
 router.put('/update-product-category/:id', ProductCategoryController.UpdateProductCategory);
-router.get('/get-product-category/:id', ProductCategoryController.GetProductCategory);
+router.get('/get-product-category', ProductCategoryController.GetProductCategory);
 
 module.exports = router;
 

@@ -8,7 +8,7 @@ router.post('/create-product-size', validate(ProductSizeRule.create), ProductSiz
 router.get("/get-all-product-size", ProductSizeController.GetAllProductSize);
 router.delete('/delete-product-size/:id', ProductSizeController.DeleteProductSize);
 router.put('/update-product-size/:id', ProductSizeController.UpdateProductSize);
-router.get('/get-product-size/:id', ProductSizeController.GetProductSize);
+router.get('/get-product-size', ProductSizeController.GetProductSize);
 
 module.exports = router;
 

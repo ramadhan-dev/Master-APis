@@ -8,7 +8,7 @@ router.post('/create-product-type', validate(ProductTypeRule.create), ProductTyp
 router.get("/get-all-product-type", ProductTypeController.GetAllProductType);
 router.delete('/delete-product-type/:id', ProductTypeController.DeleteProductType);
 router.put('/update-product-type/:id', ProductTypeController.UpdateProductType);
-router.get('/get-product-type/:id', ProductTypeController.GetProductType);
+router.get('/get-product-type', ProductTypeController.GetProductType);
 
 module.exports = router;
 

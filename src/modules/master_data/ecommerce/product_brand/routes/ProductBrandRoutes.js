@@ -8,7 +8,7 @@ router.post('/create-product-brand', validate(ProductBrandRule.create), ProductB
 router.get("/get-all-product-brand", ProductBrandController.GetAllProductBrand);
 router.delete('/delete-product-brand/:id', ProductBrandController.DeleteProductBrand);
 router.put('/update-product-brand/:id', ProductBrandController.UpdateProductBrand);
-router.get('/get-product-brand/:id', ProductBrandController.GetProductBrand);
+router.get('/get-product-brand', ProductBrandController.GetProductBrand);
 
 module.exports = router;
 
