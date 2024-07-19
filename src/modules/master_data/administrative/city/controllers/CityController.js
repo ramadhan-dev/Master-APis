@@ -1,12 +1,17 @@
 
 const mongoose = require("mongoose");
-
+const ProvinceModel = require("../../province/models/ProvinceModel");
 const CityModel = require("../models/CityModel");
-const CreateService = require(process.cwd() + "/src/services/CreateService");
+const isUndefined = require('lodash/isUndefined')
+
+
+const { CreateService } = require(process.cwd() + "/src/services/CreateService");
 const DeleteService = require(process.cwd() + "/src/services/DeleteService");
 const DetailsByIDService = require(process.cwd() + "/src/services/DetailsService");
 const GetAllService = require(process.cwd() + "/src/services/GetAllService");
 const UpdateService = require(process.cwd() + "/src/services/UpdateService");
+
+const { checkCodeIsExist, checkIdIsExist} = require(process.cwd() + "/src/services/CheckDataIsExist" )
 
 /**
  * 
@@ -14,7 +19,13 @@ const UpdateService = require(process.cwd() + "/src/services/UpdateService");
  * @param {*} res 
  */
 exports.CreateCity = async (req, res) => {
-    await CreateService(req, res, CityModel);
+    try {
+        await checkCodeIsExist(req, res, ProvinceModel);
+        const data = await CreateService(req, res, CityModel);
+        res.status(201).json({message: "success", data: data});
+    } catch (error) {
+        res.status(500).json({ message: "error", data: error.toString() });
+    }
 }
 
 /**
@@ -31,6 +42,11 @@ exports.GetAllCity = async (req, res) => {
                 foreignField: 'code', // Field di User
                 as: 'Province' // Alias untuk hasil gabungan
             },
+        },
+        {
+            $match: {
+                "Province": { $ne: [] }
+            }
         },
         {
             $unwind: '$Province'
@@ -61,6 +77,7 @@ exports.GetAllCity = async (req, res) => {
  * @param {*} res 
  */
 exports.UpdateCity = async (req, res) => {
+    await checkIdIsExist(req, res, CityModel);
     await UpdateService(req, res, CityModel)
 }
 
@@ -71,6 +88,7 @@ exports.UpdateCity = async (req, res) => {
  * @param {*} res 
  */
 exports.DeleteCity = async (req, res) => {
+    await CheckDataService.checkIdIsExist(req, res, CityModel);
     await DeleteService(req, res, CityModel)
 }
 

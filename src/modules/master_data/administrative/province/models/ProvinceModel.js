@@ -21,12 +21,19 @@ const ProvinceSchema = new mongoose.Schema(
 ProvinceSchema.pre("deleteOne",  async function (next) {
 
     const data = await this.model.findOne(this.getQuery());
-    const city = await mongoose.model('Citys').findOne({ province_code: data.code }).select('code');
-    const district = await mongoose.model('Districts').findOne({ city_code: city.code }).select('code');
 
+    const city = await mongoose.model('Citys').findOne({ province_code: data.code }).select('code');
     await mongoose.model('Citys').deleteMany({ province_code: data.code });
-    await mongoose.model('Districts').deleteMany({ city_code: city.code });
-    await mongoose.model('SubDistricts').deleteMany({ district_code: district.code });
+
+
+    if (city?.length > 0) {
+        const district = await mongoose.model('Districts').findOne({ city_code: city.code }).select('code');
+        await mongoose.model('Districts').deleteMany({ city_code: city.code });
+        
+        if (district?.length > 0) {
+            await mongoose.model('SubDistricts').deleteMany({ district_code: district.code });
+        }
+    }
 
     next();
 });

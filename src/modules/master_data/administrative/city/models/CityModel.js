@@ -24,10 +24,14 @@ const CitySchema = new mongoose.Schema(
 CitySchema.pre("deleteOne", async function (next) {
 
     const data = await this.model.findOne(this.getQuery());
-    const district = await mongoose.model('Districts').findOne({ city_code: data.code }).select('code');
+
+    if(data?.length > 0) {
+        const district = await mongoose.model('Districts').findOne({ city_code: data.code }).select('code');
+        await mongoose.model('Districts').deleteMany({ city_code: data.code });
+        await mongoose.model('SubDistricts').deleteMany({ district_code: district.code });
+
+    }
     
-    await mongoose.model('Districts').deleteMany({ city_code: data.code });
-    await mongoose.model('SubDistricts').deleteMany({ district_code: district.code });
 
     next();
 });

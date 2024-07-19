@@ -84,24 +84,3 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
-
-
-
-// Product Title
-// Product Description
-// Product Image
-// Product Gallery
-// Manufacturer Name
-
-// Brand
-// Stocks
-// Price
-// Discount
-// Orders
-
-// Status
-// Visibility
-// Publish Date & Time
-// Product Categories
-// Product Tags
-// Product Short Description
