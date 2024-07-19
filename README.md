@@ -2,18 +2,19 @@
 ---
 
 ## Table of contents
-
 * [Fungsi](#Fungsi)
 * [Install](#Install)
 * [Dokumentasi](#Dokumentasi)
 
 ## Fungsi 
+
     fungsi yang tersedia pada peoject ini antara lain
 -     Data Wilayah
 -     Product
 
 
 ## Install
+
     Apabila anda ingin menjalankan aplikasi ini di local anda bisa melakukan clone project ini di [ github repo](https://github.com/ramadhan-dev/Master-APis)
     
     ```
@@ -37,7 +38,7 @@
         
         ### yarn
         yarn dev
-```
+    ```
 
 ## Dokumentasi
     untuk dokumentasi bisa di liat di  [Apidog](https://ramadhan-dev.apidog.io/)
