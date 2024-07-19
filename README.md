@@ -5,6 +5,7 @@
 
 * [Fungsi](#Fungsi)
 * [Install](#Install)
+* [Dokumentasi](#Dokumentasi)
 
 ## Fungsi 
     fungsi yang tersedia pada peoject ini antara lain
@@ -37,3 +38,6 @@
         ### yarn
         yarn dev
 ```
+
+## Dokumentasi
+    untuk dokumentasi bisa di liat di  [Apidog](https://ramadhan-dev.apidog.io/)
