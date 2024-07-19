@@ -7,8 +7,10 @@ const router = express.Router();
 router.post('/create-province', validate(ProvinceRules.create), ProvinceController.CreateProvince);
 router.get("/get-all-province", ProvinceController.GetAllProvince);
 router.delete('/delete-province', ProvinceController.DeleteProvince);
-router.put('/update-province', ProvinceController.UpdateProvince);
+router.put('/update-province', validate(ProvinceRules.update), ProvinceController.UpdateProvince);
 router.get('/get-province', ProvinceController.GetProvince);
 
 module.exports = router;
+
+
 
