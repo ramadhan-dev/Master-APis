@@ -11,3 +11,12 @@ exports.create = zod.object({
     }),
 })
 
+
+
+exports.update = zod.object({
+    body: zod.object({
+        id: zod.string({
+            required_error: 'Province ID  is required',
+        }),
+    }),
+})
