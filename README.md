@@ -7,15 +7,13 @@
 * [Dokumentasi](#Dokumentasi)
 
 ## Fungsi 
-
-    fungsi yang tersedia pada peoject ini antara lain
+fungsi yang tersedia pada peoject ini antara lain
 -     Data Wilayah
 -     Product
 
 
 ## Install
-
-    Apabila anda ingin menjalankan aplikasi ini di local anda bisa melakukan clone project ini di [ github repo](https://github.com/ramadhan-dev/Master-APis)
+Apabila anda ingin menjalankan aplikasi ini di local anda bisa melakukan clone project ini di [ github repo](https://github.com/ramadhan-dev/Master-APis)
     
     ```
         ### clone project
@@ -41,4 +39,4 @@
     ```
 
 ## Dokumentasi
-    untuk dokumentasi bisa di liat di  [Apidog](https://ramadhan-dev.apidog.io/)
+untuk dokumentasi bisa di liat di  [ Apidog](https://ramadhan-dev.apidog.io/)
