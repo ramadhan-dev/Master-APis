@@ -22,8 +22,7 @@ const checkIdIsExist = async (req, res, Model) => {
         const data = await Model.findOne(new ObjectId(ID));
 
         if (isEmpty(data)) {
-            console.log(111111111111);
-            throw new Error('Data id tidak ada di dalam datsssssabase');
+            throw new Error('Data id tidak ada di dalam database');
         } 
          res.status(200).json({'s':'s'})
     } catch (error) {

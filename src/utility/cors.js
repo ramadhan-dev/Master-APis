@@ -31,7 +31,8 @@ Object.defineProperty(exports, "simpleRequestHeaders", {
             "accept",
             "accept-language",
             "content-language",
-            "content-type"
+            "content-type",
+            "authorization"
         ];
     }
 });
@@ -130,7 +131,7 @@ exports.create = function (options) {
 
 
         } else {
-           
+
             /**
              * * check original header
              */
@@ -175,7 +176,7 @@ exports.create = function (options) {
 
                                 // get request method [POST, GET, OPTION, PUT]
                                 requestMethod = req.headers["access-control-request-method"];
-                               
+
                                 
                                 // get content type [content-type, dll]
                                 if (req.headers.hasOwnProperty("access-control-request-headers") && req.headers["access-control-request-headers"] !== "") {
@@ -184,14 +185,14 @@ exports.create = function (options) {
                                     requestHeaders = [];
                                 }
                                 
-                               
+
                                 //  pengecekan method yang di kirim oleh browser, jika method tidak ada didaftar maka langusng di return error
                                 methodMatches = options.methods.indexOf(requestMethod) !== -1;
                                 if (methodMatches === false) {
                                     endPreflight();
                                 } else {
 
-                                   
+
                                     // pengecekan request headers, jika request header tidak ada didaftar maka langusng di return error
                                     headersMatch = requestHeaders.every(function (requestHeader) {
                                             if (requestHeader === "origin") {
@@ -223,7 +224,7 @@ exports.create = function (options) {
                                                 res.setHeader("Access-Control-Allow-Origin", "*");
                                             }
                                         }
-                                       
+
 
                                         if (options.maxAge !== null) {
                                             res.setHeader("Access-Control-Max-Age", options.maxAge);
