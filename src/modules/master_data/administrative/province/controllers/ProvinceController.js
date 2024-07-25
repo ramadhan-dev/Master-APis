@@ -1,7 +1,8 @@
 
 const ProvinceModel = require("./../models/ProvinceModel");
+const isEmpty = require('lodash//isEmpty');
 
-const CreateService = require(process.cwd() + "/src/services/CreateService");
+const {CreateService} = require(process.cwd() + "/src/services/CreateService");
 const DeleteService = require(process.cwd() + "/src/services/DeleteService");
 const DetailsByIDService = require(process.cwd() + "/src/services/DetailsService");
 const GetAllService = require(process.cwd() + "/src/services/GetAllService");
@@ -13,10 +14,16 @@ const UpdateService = require(process.cwd() + "/src/services/UpdateService");
  * @param {*} res 
  */
 exports.CreateProvince = async (req, res) => {
-    await CreateService(req, res, ProvinceModel);
+    try {
+        const data = await CreateService(req, res, ProvinceModel);
+        res.status(201).json({ message: "success", data: data });
+    } catch (error) {
+        res.status(500).json({ message: "error", data: error.toString() });
+    }
+    
 }
 
-/**
+/** 
  * 
  * @param {*} req 
  * @param {*} res 

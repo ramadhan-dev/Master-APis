@@ -32,7 +32,8 @@ Object.defineProperty(exports, "simpleRequestHeaders", {
             "accept-language",
             "content-language",
             "content-type",
-            "authorization"
+            "authorization",
+            "token"
         ];
     }
 });
@@ -136,6 +137,7 @@ exports.create = function (options) {
              * * check original header
              */
             checkOriginMatch(req.headers.origin, options.origins, function (err, originMatches) {
+                console.log("🚀 ~ originMatches:", originMatches)
                 if (err !== null) {
                     next(err);
                 } else {

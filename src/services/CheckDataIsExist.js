@@ -24,7 +24,6 @@ const checkIdIsExist = async (req, res, Model) => {
         if (isEmpty(data)) {
             throw new Error('Data id tidak ada di dalam database');
         } 
-         res.status(200).json({'s':'s'})
     } catch (error) {
          res.status(500).json({ message: "error", data: error.message });
     }
