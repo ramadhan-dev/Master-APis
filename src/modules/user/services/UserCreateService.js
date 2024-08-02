@@ -5,10 +5,6 @@ const UserCreateService= async (req,res,DataModel) => {
    try{
       let reqBody=req.body;
       let existingEmail = await DataModel.aggregate([{$match:{email: reqBody['email']}}]);
-
-      //let userExists = await DataModel.exists({email: reqBody['email']});//we get only an _id (ObjectId)
-      
-
           if(existingEmail.length ===0){
                reqBody.password = await hashedPassword(reqBody.password);//hashedPassword
                let data = await DataModel.create(reqBody)

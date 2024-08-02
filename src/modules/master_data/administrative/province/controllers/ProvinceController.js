@@ -1,11 +1,11 @@
 
 const ProvinceModel = require("./../models/ProvinceModel");
-const isEmpty = require('lodash//isEmpty');
+const mongoose = require("mongoose");
 
-const {CreateService} = require(process.cwd() + "/src/services/CreateService");
+const { CreateService } = require(process.cwd() + "/src/services/CreateService");
 const DeleteService = require(process.cwd() + "/src/services/DeleteService");
 const DetailsByIDService = require(process.cwd() + "/src/services/DetailsService");
-const GetAllService = require(process.cwd() + "/src/services/GetAllService");
+const {GetAllService} = require(process.cwd() + "/src/services/GetAllService");
 const UpdateService = require(process.cwd() + "/src/services/UpdateService");
 
 /**
@@ -20,7 +20,7 @@ exports.CreateProvince = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "error", data: error.toString() });
     }
-    
+
 }
 
 /** 
@@ -29,8 +29,74 @@ exports.CreateProvince = async (req, res) => {
  * @param {*} res 
  */
 exports.GetAllProvince = async (req, res) => {
-    let Projection = { $project: { _id: 1, name: 1, code: 1, createdAt: 1, updatedAt: 1 } };
-    await GetAllService(req, res, ProvinceModel, Projection)
+
+
+
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+    const skip = (page - 1) * pageSize;
+    const ObjectId = mongoose.Types.ObjectId;
+
+    const isObjectId = ObjectId.isValid(req.query.lastId)
+    const lastId = isObjectId ? new ObjectId(req.query.lastId) : null;
+
+    try {
+        const matchStage = lastId ? { _id: { $gt: lastId } } : {};
+        const Projection = [
+            {
+                $facet: {
+                    data: [
+                        { $match: matchStage },
+                        { $skip: skip },
+                        { $limit: pageSize },
+                        {
+                            $project: {
+                                _id: 1,    
+                                name: 1,
+                                code: 1
+                            }
+                        }
+                    ],
+                    totalCount: [
+                        { $count: 'count' }
+                    ]
+                }
+            },
+            {
+                $project: {
+                    data: 1,
+                    totalData: { $arrayElemAt: ['$totalCount.count', 0] },
+                    totalPages: { $ceil: { $divide: [{ $arrayElemAt: ['$totalCount.count', 0] }, pageSize] } },
+                    currentPage: { $literal: page },
+                    lastId: {
+                        $let: {
+                            vars: {
+                                lastItem: { $arrayElemAt: ['$data', -1] }
+                            },
+                            in: { $ifNull: [{ $ifNull: ["$$lastItem._id", null] }, null] }
+                        }
+                    }
+                }
+            }
+        ];
+
+        let results = await GetAllService(req, res, ProvinceModel, Projection)
+
+        const response = {
+            data: results[0].data,
+            totalData: results[0].totalData,
+            totalPage: results[0].totalPages,
+            currentPage: results[0]?.currentPage,
+            lastIdResult: results[0].lastId
+        }
+
+        res.status(200).json(response);
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'An error occurred' });
+    }
+
 }
 
 /**

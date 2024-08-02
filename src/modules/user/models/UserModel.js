@@ -45,10 +45,10 @@ const UserSchema = new mongoose.Schema(
 
 UserSchema.set('toJSON', {
     virtuals: true,
-    transform: (doc, ret) => {
-        delete ret.password;
-        delete ret._id;
-        return ret;
+    transform: (doc, obj) => {
+        delete obj.password;
+        delete obj._id;
+        return obj;
     }
 });
 
