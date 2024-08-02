@@ -19,7 +19,7 @@ simpleMethods = exports.simpleMethods;
 
 Object.defineProperty(exports, "origin", {
     get: function () {
-        return ["http://localhost:3000"];
+        return ["http://localhost:3000", "https://rama-dashboard.vercel.app"];
     }
 });
 origin = exports.origin;

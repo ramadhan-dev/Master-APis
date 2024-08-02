@@ -32,28 +32,28 @@ exports.GetAllProvince = async (req, res) => {
 
 
 
-    const page = parseInt(req.query.page) || 1;
+    const page = parseInt(req.query.pageIndex) || 1;
     const pageSize = parseInt(req.query.pageSize) || 10;
     const skip = (page - 1) * pageSize;
-    const ObjectId = mongoose.Types.ObjectId;
+    const sortBy = req.query.sortBy || '_id';
+    const sortOrder = parseInt(req.query.sortOrder) || 1; 
 
-    const isObjectId = ObjectId.isValid(req.query.lastId)
-    const lastId = isObjectId ? new ObjectId(req.query.lastId) : null;
-
+    const sort = { [sortBy] :sortOrder}
+    
     try {
-        const matchStage = lastId ? { _id: { $gt: lastId } } : {};
         const Projection = [
             {
                 $facet: {
                     data: [
-                        { $match: matchStage },
+                        { $sort: sort }, // Sorting stage
                         { $skip: skip },
                         { $limit: pageSize },
                         {
                             $project: {
                                 _id: 1,    
                                 name: 1,
-                                code: 1
+                                code: 1,
+                                updatedAt:1
                             }
                         }
                     ],
@@ -68,14 +68,6 @@ exports.GetAllProvince = async (req, res) => {
                     totalData: { $arrayElemAt: ['$totalCount.count', 0] },
                     totalPages: { $ceil: { $divide: [{ $arrayElemAt: ['$totalCount.count', 0] }, pageSize] } },
                     currentPage: { $literal: page },
-                    lastId: {
-                        $let: {
-                            vars: {
-                                lastItem: { $arrayElemAt: ['$data', -1] }
-                            },
-                            in: { $ifNull: [{ $ifNull: ["$$lastItem._id", null] }, null] }
-                        }
-                    }
                 }
             }
         ];
@@ -87,13 +79,11 @@ exports.GetAllProvince = async (req, res) => {
             totalData: results[0].totalData,
             totalPage: results[0].totalPages,
             currentPage: results[0]?.currentPage,
-            lastIdResult: results[0].lastId
         }
 
         res.status(200).json(response);
 
     } catch (error) {
-        console.error('Error fetching data:', error);
         res.status(500).json({ error: 'An error occurred' });
     }
 
