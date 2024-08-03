@@ -10,7 +10,9 @@ Object.defineProperty(exports, "simpleMethods", {
         return [
             "GET",
             "HEAD",
-            "POST"
+            "POST",
+            "PUT",
+            "DELETE"
         ];
     }
 });
