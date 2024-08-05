@@ -12,6 +12,8 @@ router.get("/get-all-province", ProvinceController.GetAllProvince);
 router.delete('/delete-province', ProvinceController.DeleteProvince);
 router.put('/update-province', validate(ProvinceRules.update), ProvinceController.UpdateProvince);
 router.get('/get-province', ProvinceController.GetProvince);
+router.get('/get-province-options', ProvinceController.GetProvinceOptions);
+
 
 module.exports = router;
 

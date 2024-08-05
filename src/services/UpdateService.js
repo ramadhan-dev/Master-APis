@@ -1,15 +1,10 @@
 const mongoose = require("mongoose");
-const UpdateService= async (req, res,DataModel) => {
+const UpdateService = async (req, res, DataModel, PostBody) => {
 
     try{
         let ID = req.body.id;
         const ObjectId = mongoose.Types.ObjectId;
         let UpdateQueryObject = {_id: new ObjectId(ID)};
-        let PostBody={
-            code: req?.body.code,
-            name: req?.body.name,
-        };
-
         let Update = await DataModel.updateOne(UpdateQueryObject,PostBody);
         res.status(200).json({message: "success", data: Update});
 

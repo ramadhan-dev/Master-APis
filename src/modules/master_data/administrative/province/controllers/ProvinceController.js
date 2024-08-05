@@ -29,14 +29,11 @@ exports.CreateProvince = async (req, res) => {
  * @param {*} res 
  */
 exports.GetAllProvince = async (req, res) => {
-
-
-
     const page = parseInt(req.query.pageIndex) || 1;
     const pageSize = parseInt(req.query.pageSize) || 10;
     const skip = (page - 1) * pageSize;
     const sortBy = req.query.sortBy || '_id';
-    const sortOrder = parseInt(req.query.sortOrder) || 1; 
+    const sortOrder = parseInt(req.query.sortOrder) || -1; 
 
     const sort = { [sortBy] :sortOrder}
     
@@ -95,7 +92,12 @@ exports.GetAllProvince = async (req, res) => {
  * @param {*} res 
  */
 exports.UpdateProvince = async (req, res) => {
-    await UpdateService(req, res, ProvinceModel)
+    let PostBody = {
+        code: req?.body.code,
+        name: req?.body.name,
+    };
+    console.log("🚀 ~ exports.UpdateProvince= ~ PostBody:", PostBody)
+    await UpdateService(req, res, ProvinceModel, PostBody)
 }
 
 
@@ -116,4 +118,48 @@ exports.DeleteProvince = async (req, res) => {
  */
 exports.GetProvince = async (req, res) => {
     await DetailsByIDService(req, res, ProvinceModel);
+}
+
+
+exports.GetProvinceOptions = async(req, res) => {
+    try {
+        const Projection = [
+            {
+                $facet: {
+                    data: [
+                        {
+                            $project: {
+                                name: 1,
+                                code: 1
+                            }
+                        }
+                    ],
+                }
+            },
+            {
+                $project: {
+                    data: 1,
+                }
+            }
+        ];
+
+        let results = await GetAllService(req, res, ProvinceModel, Projection)
+
+        const transformedData = results[0].data.map(item => {
+            return {
+                label: item.name,
+                value: item.code
+            };
+        });
+
+        const response = {
+            data: transformedData,
+            message: 'success'
+        }
+
+        res.status(200).json(response);
+
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred' });
+    }
 }

@@ -4,8 +4,6 @@ const mongoose = require("mongoose");
 const DistrictModel = require("../models/DistrictModel");
 const CreateService = require(process.cwd() + "/src/services/CreateService");
 const DeleteService = require(process.cwd() + "/src/services/DeleteService");
-const DetailsByIDService = require(process.cwd() + "/src/services/DetailsService");
-const GetAllService = require(process.cwd() + "/src/services/GetAllService");
 const UpdateService = require(process.cwd() + "/src/services/UpdateService");
 
 /**
@@ -73,7 +71,11 @@ exports.GetAllDistrict = async (req, res) => {
  * @param {*} res 
  */
 exports.UpdateDistrict = async (req, res) => {
-    await UpdateService(req, res, DistrictModel)
+    let PostBody = {
+        code: req?.body.code,
+        name: req?.body.name,
+    };
+    await UpdateService(req, res, DistrictModel, PostBody)
 }
 
 
