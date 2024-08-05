@@ -2,12 +2,8 @@
 const mongoose = require("mongoose");
 const isEmpty = require('lodash//isEmpty');
 
-const  checkCodeIsExist = async (req, res, Model) => {
-    let ID = req.body.province_code;
-    const data = await Model.findOne({ 'code': ID });
-    if (data == null) {
-        throw new Error('Data code not found in database');
-    }
+const  checkCodeIsExist = async (req, res, Model, ID) => {
+    return await Model.findOne({ 'code': ID });
    
 }
 

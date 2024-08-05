@@ -13,7 +13,6 @@ exports.CreateContact=async (req, res) => {
 
 
 exports.UpdateContact=async(req,res)=>{
-    console.log(req?.body);
     await UpdateService(req,res,ContactModel)
 }
 

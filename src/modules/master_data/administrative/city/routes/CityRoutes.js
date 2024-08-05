@@ -11,6 +11,7 @@ router.get("/get-all-city", CityController.GetAllCity);
 router.delete('/delete-city',  CityController.DeleteCity);
 router.put('/update-city',  CityController.UpdateCity);
 router.get('/get-city',  CityController.GetCity);
+router.get('/get-city-options', CityController.GetCityOptions);
 
 module.exports = router;
 

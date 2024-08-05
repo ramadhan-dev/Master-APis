@@ -19,7 +19,6 @@ exports.CreateProductStatus = async (req, res) => {
 
 
 exports.GetAllProductStatus = async (req, res) => {
-    console.log(1111);
     const projection = { $project: { _id: 1, name:1, code: 1, createdAt: 1, updatedAt: 1, status:1 } }
     await GetAllService(req, res, ProductStatusModel, projection)
 }

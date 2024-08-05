@@ -96,7 +96,6 @@ exports.UpdateProvince = async (req, res) => {
         code: req?.body.code,
         name: req?.body.name,
     };
-    console.log("🚀 ~ exports.UpdateProvince= ~ PostBody:", PostBody)
     await UpdateService(req, res, ProvinceModel, PostBody)
 }
 
@@ -121,6 +120,11 @@ exports.GetProvince = async (req, res) => {
 }
 
 
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.GetProvinceOptions = async(req, res) => {
     try {
         const Projection = [

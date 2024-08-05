@@ -18,7 +18,9 @@ const { checkCodeIsExist, checkIdIsExist } = require(process.cwd() + "/src/servi
  */
 exports.CreateCity = async (req, res) => {
     try {
-        await checkCodeIsExist(req, res, ProvinceModel);
+        let ID = req.body.province_code;
+
+        await checkCodeIsExist(req, res, ProvinceModel, ID);
         const data = await CreateService(req, res, CityModel);
         res.status(201).json({ message: "success", data: data });
     } catch (error) {
@@ -110,13 +112,26 @@ exports.GetAllCity = async (req, res) => {
  * @param {*} res 
  */
 exports.UpdateCity = async (req, res) => {
-    let PostBody = {
-        code: req?.body.code,
-        name: req?.body.name,
-        province_code: req?.body.province_code,
-    };
-    await checkIdIsExist(req, res, CityModel);
-    await UpdateService(req, res, CityModel, PostBody)
+    try {
+        let provinceCode = req.body.province_code;
+        const checkProvince = await checkCodeIsExist(req, res, ProvinceModel, provinceCode);
+        if (checkProvince == null) {
+            throw new Error('Data Province Code not found in database');
+        }
+
+        let PostBody = {
+            code: req?.body.code,
+            name: req?.body.name,
+            province_code: req?.body.province_code,
+        };
+        await UpdateService(req, res, CityModel, PostBody)
+
+    } catch (error) {
+        res.status(500).json({ message: "error", data: error.toString() });
+    }
+
+
+   
 }
 
 573.500   
@@ -183,3 +198,55 @@ exports.GetCity = async (req, res) => {
     }
 }
 
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.GetCityOptions = async (req, res) => {
+    try {
+        const Projection = [
+            {
+                $facet: {
+                    data: [
+                        {
+                            $match: { province_code: req.query.id } 
+                        },
+                        {
+                            $project: {
+                                name: 1,
+                                code: 1, 
+                                province_code: 1
+                            }
+                        }
+                    ],
+                }
+            },
+            {
+                $project: {
+                    data: 1,
+                }
+            }
+        ];
+
+        let results = await GetAllService(req, res, CityModel, Projection)
+
+        const transformedData = results[0].data.map(item => {
+            return {
+                label: item.name,
+                value: item.code
+            };
+        });
+
+        const response = {
+            data: transformedData,
+            message: 'success'
+        }
+
+        res.status(200).json(response);
+
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred' });
+    }
+}

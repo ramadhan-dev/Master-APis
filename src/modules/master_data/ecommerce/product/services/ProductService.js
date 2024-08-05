@@ -1,6 +1,3 @@
-const saveData = async (req, res) => {
-console.log("🚀 ~ saveData ~ req:", req.body?.name)
-
-}
+const saveData = async (req, res) => {}
 
 module.exports = saveData
