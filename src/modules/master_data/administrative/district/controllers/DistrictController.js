@@ -152,7 +152,6 @@ exports.UpdateDistrict = async (req, res) => {
         let PostBody = {
             code: req?.body.code,
             name: req?.body.name,
-            province_code: req?.body?.province_code,
             city_code: req?.body?.city_code
         };
         await UpdateService(req, res, DistrictModel, PostBody)
@@ -249,3 +248,58 @@ exports.GetDistrict = async (req, res) => {
     }
 }
 
+
+
+
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.GetDistrictOptions = async (req, res) => {
+    try {
+        const Projection = [
+            {
+                $facet: {
+                    data: [
+                        {
+                            $match: { city_code: req.query.id }
+                        },
+                        {
+                            $project: {
+                                name: 1,
+                                code: 1,
+                                province_code: 1
+                            }
+                        }
+                    ],
+                }
+            },
+            {
+                $project: {
+                    data: 1,
+                }
+            }
+        ];
+
+        let results = await GetAllService(req, res, DistrictModel, Projection)
+
+        const transformedData = results[0].data.map(item => {
+            return {
+                label: item.name,
+                value: item.code
+            };
+        });
+
+        const response = {
+            data: transformedData,
+            message: 'success'
+        }
+
+        res.status(200).json(response);
+
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred' });
+    }
+}

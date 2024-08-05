@@ -9,6 +9,7 @@ router.get("/get-all-district", DistrictController.GetAllDistrict);
 router.delete('/delete-district', DistrictController.DeleteDistrict);
 router.put('/update-district', DistrictController.UpdateDistrict);
 router.get('/get-district', DistrictController.GetDistrict);
+router.get('/get-district-options', DistrictController.GetDistrictOptions);
 
 module.exports = router;
 
