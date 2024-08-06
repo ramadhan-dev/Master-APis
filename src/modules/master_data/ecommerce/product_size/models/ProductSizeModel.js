@@ -11,6 +11,10 @@ const ProductSizeSchema = new mongoose.Schema(
             required: [true, "Product Brand Code is required"],
             unique: true
         },
+
+        description: {
+            type: String,
+        },
         status: {
             type: Boolean,
             default: true

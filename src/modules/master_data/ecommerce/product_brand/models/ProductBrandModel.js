@@ -14,7 +14,10 @@ const ProductBrandSchema = new mongoose.Schema(
         status: {
             type: Boolean,
             default: true
-        }
+        },
+        description: {
+            type: String,
+        },
     },
     { timestamps: true, versionKey: false }
 )

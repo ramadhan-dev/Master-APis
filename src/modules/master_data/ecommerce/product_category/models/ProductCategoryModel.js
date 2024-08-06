@@ -14,7 +14,10 @@ const ProductCategorySchema = new mongoose.Schema(
         status: {
             type: Boolean,
             default: true
-        }
+        },
+        description: {
+            type: String,
+        },
     },
     { timestamps: true, versionKey: false }
 )

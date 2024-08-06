@@ -48,6 +48,7 @@ exports.GetAllProductCategory = async (req, res) => {
                                 name: 1,
                                 code: 1,
                                 status: 1,
+                                description:1,
                                 updatedAt: 1
                             }
                         }
@@ -127,7 +128,8 @@ exports.UpdateProductCategory = async (req, res) => {
         let PostBody = {
             code: req.body?.code,
             name: req.body?.name,
-            status: req.body?.status
+            status: req.body?.status,
+            description:req?.body?.description
         };
         await UpdateService(req, res, ProductCategoryModel, PostBody)
 
