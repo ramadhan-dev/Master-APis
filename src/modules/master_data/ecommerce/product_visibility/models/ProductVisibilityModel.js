@@ -4,12 +4,16 @@ const ProductVisibilitySchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: [true, "Name Name is required"],
+            required: [true, "Product Brand Name is required"],
         },
         code: {
             type: String,
-            required: [true, "Code Code is required"],
+            required: [true, "Product Brand Code is required"],
             unique: true
+        },
+
+        description: {
+            type: String,
         },
         status: {
             type: Boolean,
