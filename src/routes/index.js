@@ -29,6 +29,7 @@ const productStatusRoutes = require("../modules/master_data/ecommerce/product_st
 const productTypeRoutes = require("../modules/master_data/ecommerce/product_type/routes/ProductTypeRoutes");
 const productVisibilityRoutes = require("../modules/master_data/ecommerce/product_visibility/routes/ProductVisibilityRoutes");
 const productRoutes = require("../modules/master_data/ecommerce/product/routes/ProductRoutes");
+const productTagRoutes = require("../modules/master_data/ecommerce/product_tag/routes/ProductTagRoutes");
 
 
 
@@ -63,6 +64,7 @@ app.use('/api/product-size', AuthVerifyMiddleware, IsAdmin, productSizeRoutes);
 app.use('/api/product-status', AuthVerifyMiddleware, IsAdmin, productStatusRoutes);
 app.use('/api/product-type', AuthVerifyMiddleware, IsAdmin, productTypeRoutes);
 app.use('/api/product-visibility', AuthVerifyMiddleware, IsAdmin, productVisibilityRoutes);
+app.use('/api/product-tag', AuthVerifyMiddleware, IsAdmin, productTagRoutes);
 app.use('/api/product', AuthVerifyMiddleware, IsAdmin, productRoutes);
 
 
