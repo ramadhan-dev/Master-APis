@@ -15,7 +15,6 @@ const { checkCodeIsExist, checkIdIsExist } = require(process.cwd() + "/src/servi
  * @param {*} res 
  */
 exports.CreateProductBrand = async (req, res) => {
-
     try {
         const data = await CreateService(req, res, ProductBrandModel);
         res.status(201).json({ message: "success", data: data });

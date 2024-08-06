@@ -9,5 +9,5 @@ router.get("/get-all-product-category", ProductCategoryController.GetAllProductC
 router.delete('/delete-product-category', ProductCategoryController.DeleteProductCategory);
 router.put('/update-product-category', ProductCategoryController.UpdateProductCategory);
 router.get('/get-product-category', ProductCategoryController.GetProductCategory);
-
+router.put('/update-status-category', ProductCategoryController.UpdateStatusCategory);
 module.exports = router;
