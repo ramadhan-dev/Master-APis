@@ -6,8 +6,9 @@ const validate = require(process.cwd() + '/src/validations/common/validate')
 const router = express.Router();
 router.post('/create-product-brand', validate(ProductBrandRule.create), ProductBrandController.CreateProductBrand);
 router.get("/get-all-product-brand", ProductBrandController.GetAllProductBrand);
-router.delete('/delete-product-brand/:id', ProductBrandController.DeleteProductBrand);
-router.put('/update-product-brand/:id', ProductBrandController.UpdateProductBrand);
+router.delete('/delete-product-brand', ProductBrandController.DeleteProductBrand);
+router.put('/update-product-brand', ProductBrandController.UpdateProductBrand);
+router.put('/update-status-brand', ProductBrandController.UpdateStatusBrand);
 router.get('/get-product-brand', ProductBrandController.GetProductBrand);
 
 module.exports = router;
