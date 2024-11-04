@@ -31,41 +31,41 @@ const productVisibilityRoutes = require("../modules/master_data/ecommerce/produc
 const productRoutes = require("../modules/master_data/ecommerce/product/routes/ProductRoutes");
 const productTagRoutes = require("../modules/master_data/ecommerce/product_tag/routes/ProductTagRoutes");
 
+const apiVersion = process.env.API_VERSION;
 
-
-app.use('/api/auth', authRouter);
+app.use(`/api/${apiVersion}/auth`, authRouter);
 
 /**
  * 
  */
-app.use('/api/contact', AuthVerifyMiddleware, IsAdmin, contactRouter);
-app.use('/api/user', AuthVerifyMiddleware, IsAdmin, userRouter);
-app.use('/api/doctor', AuthVerifyMiddleware, IsAdmin, doctorRouter);
-app.use('/api/appointment', AuthVerifyMiddleware, IsAdmin, appointmentRouter);
-app.use('/api/report', AuthVerifyMiddleware, IsAdmin, reportRouter);
-app.use('/api/upload', AuthVerifyMiddleware, IsAdmin, uploadRouter);
+app.use(`/api/${apiVersion}/contact`, AuthVerifyMiddleware, IsAdmin, contactRouter);
+app.use(`/api/${apiVersion}/user`, AuthVerifyMiddleware, IsAdmin, userRouter);
+app.use(`/api/${apiVersion}/doctor`, AuthVerifyMiddleware, IsAdmin, doctorRouter);
+app.use(`/api/${apiVersion}/appointment`, AuthVerifyMiddleware, IsAdmin, appointmentRouter);
+app.use(`/api/${apiVersion}/report`, AuthVerifyMiddleware, IsAdmin, reportRouter);
+app.use(`/api/${apiVersion}/upload`, AuthVerifyMiddleware, IsAdmin, uploadRouter);
 
 
 /**
  * * APi's Administrative
  */
-app.use('/api/province', AuthVerifyMiddleware, IsAdmin, provinceRoute);
-app.use('/api/city', AuthVerifyMiddleware, IsAdmin, cityRoute);
-app.use('/api/district', AuthVerifyMiddleware, IsAdmin, districtRoute);
-app.use('/api/sub-district', AuthVerifyMiddleware, IsAdmin, subDistrictRoute);
+app.use(`/api/${apiVersion}/province`, AuthVerifyMiddleware, IsAdmin, provinceRoute);
+app.use(`/api/${apiVersion}/city`, AuthVerifyMiddleware, IsAdmin, cityRoute);
+app.use(`/api/${apiVersion}/district`, AuthVerifyMiddleware, IsAdmin, districtRoute);
+app.use(`/api/${apiVersion}/sub-district`, AuthVerifyMiddleware, IsAdmin, subDistrictRoute);
 
 
 /**
  * * API's Product
  */
-app.use('/api/product-brand', AuthVerifyMiddleware, IsAdmin, productBrandRoutes);
-app.use('/api/product-category', AuthVerifyMiddleware, IsAdmin, productCategoryRoutes);
-app.use('/api/product-size', AuthVerifyMiddleware, IsAdmin, productSizeRoutes);
-app.use('/api/product-status', AuthVerifyMiddleware, IsAdmin, productStatusRoutes);
-app.use('/api/product-type', AuthVerifyMiddleware, IsAdmin, productTypeRoutes);
-app.use('/api/product-visibility', AuthVerifyMiddleware, IsAdmin, productVisibilityRoutes);
-app.use('/api/product-tag', AuthVerifyMiddleware, IsAdmin, productTagRoutes);
-app.use('/api/product', AuthVerifyMiddleware, IsAdmin, productRoutes);
+app.use(`/api/${apiVersion}/product-brand`, AuthVerifyMiddleware, IsAdmin, productBrandRoutes);
+app.use(`/api/${apiVersion}/product-category`, AuthVerifyMiddleware, IsAdmin, productCategoryRoutes);
+app.use(`/api/${apiVersion}/product-size`, AuthVerifyMiddleware, IsAdmin, productSizeRoutes);
+app.use(`/api/${apiVersion}/product-status`, AuthVerifyMiddleware, IsAdmin, productStatusRoutes);
+app.use(`/api/${apiVersion}/product-type`, AuthVerifyMiddleware, IsAdmin, productTypeRoutes);
+app.use(`/api/${apiVersion}/product-visibility`, AuthVerifyMiddleware, IsAdmin, productVisibilityRoutes);
+app.use(`/api/${apiVersion}/product-tag`, AuthVerifyMiddleware, IsAdmin, productTagRoutes);
+app.use(`/api/${apiVersion}/product`, AuthVerifyMiddleware, IsAdmin, productRoutes);
 
 
 

@@ -66,3 +66,4 @@ exports.ForgotPasswordVerifyOtp=async (req,res)=>{
 exports.CreateNewPassword=async (req,res)=>{
     await CreateNewPasswordService(req,res)
 }
+

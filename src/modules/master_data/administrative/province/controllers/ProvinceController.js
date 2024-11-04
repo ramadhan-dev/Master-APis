@@ -7,6 +7,7 @@ const DeleteService = require(process.cwd() + "/src/services/DeleteService");
 const DetailsByIDService = require(process.cwd() + "/src/services/DetailsService");
 const {GetAllService} = require(process.cwd() + "/src/services/GetAllService");
 const UpdateService = require(process.cwd() + "/src/services/UpdateService");
+const { checkCodeIsExist } = require(process.cwd() + "/src/services/CheckDataIsExist")
 
 /**
  * 
@@ -15,6 +16,11 @@ const UpdateService = require(process.cwd() + "/src/services/UpdateService");
  */
 exports.CreateProvince = async (req, res) => {
     try {
+        let code = req.body.code;
+        const checkProvinceCode = await checkCodeIsExist(req, res, ProvinceModel, code);
+        if (checkProvinceCode != null) {
+            throw new Error('Data Province Code already exist ');
+        }
         const data = await CreateService(req, res, ProvinceModel);
         res.status(201).json({ message: "success", data: data });
     } catch (error) {

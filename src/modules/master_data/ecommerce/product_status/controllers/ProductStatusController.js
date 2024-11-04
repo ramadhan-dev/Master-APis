@@ -78,7 +78,6 @@ exports.GetAllProductStatus = async (req, res) => {
         res.status(200).json(response);
 
     } catch (error) {
-        console.log("🚀 ~ exports.GetAllProductStatus= ~ error:", error)
         res.status(500).json({ error: 'An error occurred' });
     }
 }
