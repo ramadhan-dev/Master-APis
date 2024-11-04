@@ -39,4 +39,4 @@ Apabila anda ingin menjalankan aplikasi ini di local anda bisa melakukan clone p
     ```
 
 ## Dokumentasi
-untuk dokumentasi bisa di liat di  [ Apidog](https://ramadhan-dev.apidog.io/)
+untuk dokumentasi bisa di liat di 
