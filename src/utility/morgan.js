@@ -1,80 +1,49 @@
 'use strict';
 
-var morgan = require('morgan');
-var os = require('os');
+const morgan = require('morgan');
+const os = require('os');
 const fs = require('fs');
 const path = require('path');
-
 
 // Function to get formatted date string (YYYY-MM-DD)
 function getFormattedDate() {
     const now = new Date();
     const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
 
-// Ensure logs directory exists
-const logDir = 'logs';
+// Hybrid logging: /tmp/logs + stdout
+let logDir = '/tmp/logs';
+if (!fs.existsSync('/tmp')) {
+    logDir = path.join(__dirname, 'logs'); // fallback untuk Windows atau local
+}
+
 if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir);
+    fs.mkdirSync(logDir, { recursive: true });
 }
 
 const fileName = `__master_log_${getFormattedDate()}.log`;
-const accessLogStream = fs.createWriteStream(path.join(logDir, fileName), { flags: 'a' });
+const fileStream = fs.createWriteStream(path.join(logDir, fileName), { flags: 'a' });
 
-
-/**
- * get Conversation-Id
- */
+// Custom morgan tokens
 morgan.token('conversation-id', req => req.conversationId);
-
-/**
- * get Session-Id
- */
 morgan.token('session-id', req => req.sessionId);
-
-/**
- * get Instance-Id
- */
-morgan.token('instance-id', req =>  req.instanceId);
-
-/**
- * get Hostname
- */
+morgan.token('instance-id', req => req.instanceId);
 morgan.token('hostname', () => os.hostname());
-
-
-/**
- * get PID
- */
 morgan.token('pid', () => process.pid);
+morgan.token('response-time-seconds', function (req, res) {
+    return Math.ceil(this['response-time'](req, res));
+});
 
-
-/**
- * get response time 
- */
-morgan.token('response-time-seconds', function getResponseTimeInSeconds(req, res) {
-    return Math.ceil(this['response-time'](req, res))
-})
-
-
-/**
- * 
- * @param {*} tokens 
- * @param {*} req 
- * @param {*} res 
- * @returns JSON
- * @description Cutom format LOG
- */
+// Custom JSON format
 function jsonFormat(tokens, req, res) {
     return JSON.stringify({
         'remote-address': tokens['remote-addr'](req, res),
         'time': tokens['date'](req, res, 'iso'),
         'method': tokens['method'](req, res),
         'url': tokens['url'](req, res),
-        'http-version': tokens['http-version'](req, res),
         'status-code': tokens['status'](req, res),
         'content-length': tokens['res'](req, res, 'content-length'),
         'referrer': tokens['referrer'](req, res),
@@ -88,13 +57,16 @@ function jsonFormat(tokens, req, res) {
     });
 }
 
+// Middleware hybrid: stdout + file
+const morganMiddleware = morgan(jsonFormat, {
+    stream: {
+        write: message => {
+            process.stdout.write(message + '\n');  // tampil di Vercel Dashboard
+            fileStream.write(message + '\n');      // simpan di /tmp/logs
+        }
+    }
+});
 
-
-const morganMiddleware = morgan(jsonFormat, { stream: accessLogStream });
-
-
-
-// Export logger and middleware
 module.exports = {
     morganMiddleware
 };
