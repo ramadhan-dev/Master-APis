@@ -85,16 +85,15 @@ function countSetBits(n) {
 
 
 function outer() {
-    let count = 0;
-    console.log("🚀 ~ outer ~ count:", count)
-    return function inner() {
+    var count = 0;
+    return function sss() {
         count++;
-        console.log("🚀 ~ inner ~ count:", count)
         return count;
     };
 }
 
 const counter = outer();
 console.log(counter()); // 1
+console.log(counter()); // 2
 console.log(counter()); // 2
 console.log(counter()); // 2

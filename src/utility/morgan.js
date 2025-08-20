@@ -2,43 +2,54 @@
 
 var morgan = require('morgan');
 var os = require('os');
-var logger = require('morgan');
+const fs = require('fs');
+const path = require('path');
+
+
+// Function to get formatted date string (YYYY-MM-DD)
+function getFormattedDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// Ensure logs directory exists
+const logDir = 'logs';
+if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir);
+}
+
+const fileName = `__master_log_${getFormattedDate()}.log`;
+const accessLogStream = fs.createWriteStream(path.join(logDir, fileName), { flags: 'a' });
+
 
 /**
  * get Conversation-Id
  */
-morgan.token('conversation-id', function getConversationId(req) {
-    return req.conversationId;
-});
+morgan.token('conversation-id', req => req.conversationId);
 
 /**
  * get Session-Id
  */
-morgan.token('session-id', function getSessionId(req) {
-    return req.sessionId;
-});
+morgan.token('session-id', req => req.sessionId);
 
 /**
  * get Instance-Id
  */
-morgan.token('instance-id', function getInstanceId(req) {
-    return req.instanceId;
-});
+morgan.token('instance-id', req =>  req.instanceId);
 
 /**
  * get Hostname
  */
-morgan.token('hostname', function getHostname() {
-    return os.hostname();
-});
+morgan.token('hostname', () => os.hostname());
 
 
 /**
  * get PID
  */
-morgan.token('pid', function getPid() {
-    return process.pid;
-});
+morgan.token('pid', () => process.pid);
 
 
 /**
@@ -47,15 +58,6 @@ morgan.token('pid', function getPid() {
 morgan.token('response-time-seconds', function getResponseTimeInSeconds(req, res) {
     return Math.ceil(this['response-time'](req, res))
 })
-
-
-/**
- * 
- * @returns 
- */
-module.exports = function loggingMiddleware() {
-    return morgan(jsonFormat);
-};
 
 
 /**
@@ -85,3 +87,14 @@ function jsonFormat(tokens, req, res) {
         'response-time-seconds': tokens['response-time-seconds'](req, res),
     });
 }
+
+
+
+const morganMiddleware = morgan(jsonFormat, { stream: accessLogStream });
+
+
+
+// Export logger and middleware
+module.exports = {
+    morganMiddleware
+};

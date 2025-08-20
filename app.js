@@ -6,14 +6,14 @@ const hpp = require("hpp");
 const rateLimit = require("express-rate-limit");
 const dbConnect = require("./src/utility/dbConnect");
 
-const loggingMiddleware = require("./src/utility/morgan")
+const {morganMiddleware} = require("./src/utility/morgan")
 const responsePoweredBy = require('response-powered-by')
 const cors = require("./src/utility/cors");
 const routes = require('./src/routes');
 const app = express();
 
 
-app.use(loggingMiddleware());
+app.use(morganMiddleware);
 app.use(cors.create())
 app.use(helmet())
 app.use(responsePoweredBy("ramadhan-dev"))
